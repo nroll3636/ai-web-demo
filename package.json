@@ -1,0 +1,25 @@
+{
+  "name": "ai-web-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "db:setup": "node scripts/setup-db.mjs",
+    "db:test": "node scripts/test-db.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "dotenv": "^18.0.8",
+    "next": "^16.4.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
