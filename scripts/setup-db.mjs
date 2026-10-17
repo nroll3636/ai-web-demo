@@ -10,12 +10,16 @@ if (!url) {
 }
 
 const sql = neon(url);
+
+// 校园社区帖子表
 await sql`
-  CREATE TABLE IF NOT EXISTS messages (
+  CREATE TABLE IF NOT EXISTS posts (
     id BIGSERIAL PRIMARY KEY,
+    module TEXT NOT NULL,
+    title TEXT NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   )
 `;
 
-console.log("✅ messages 表已就绪");
+console.log("✅ posts 表已就绪");

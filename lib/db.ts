@@ -1,23 +1,61 @@
 import { neon } from "@neondatabase/serverless";
+import { MODULES, type ModuleSlug } from "./modules";
 
-// 从环境变量读取 Neon 数据库连接字符串
-// 本地开发读取 .env 文件（Next.js 自动加载）；线上读取 Vercel 配置的环境变量
 const connectionString = process.env.DATABASE_URL || "";
 const sql = neon(connectionString);
 
-export type Message = {
+export type Post = {
   id: number;
+  module: string;
+  title: string;
   content: string;
   created_at: string;
 };
 
-// 查询示例：读取最近 50 条留言
-export async function getMessages(): Promise<Message[]> {
-  const rows = await sql`SELECT id, content, created_at FROM messages ORDER BY created_at DESC LIMIT 50`;
-  return rows as unknown as Message[];
+export type ModuleCount = {
+  slug: ModuleSlug;
+  name: string;
+  desc: string;
+  count: number;
+};
+
+// 首页：统计每个板块的帖子数
+export async function getModuleCounts(): Promise<ModuleCount[]> {
+  const rows = await sql`
+    SELECT module, count(*)::int AS count
+    FROM posts
+    GROUP BY module
+  `;
+  const map = new Map(rows.map((r) => [String(r.module), Number(r.count)]));
+  return MODULES.map((m) => ({
+    ...m,
+    count: map.get(m.slug) ?? 0,
+  }));
 }
 
-// 写入示例：新增一条留言
-export async function addMessage(content: string) {
-  await sql`INSERT INTO messages (content) VALUES (${content})`;
+// 帖子列表：支持按板块筛选
+export async function getPosts(module?: string): Promise<Post[]> {
+  const rows = module
+    ? await sql`
+        SELECT id, module, title, content, created_at
+        FROM posts
+        WHERE module = ${module}
+        ORDER BY created_at DESC
+        LIMIT 100
+      `
+    : await sql`
+        SELECT id, module, title, content, created_at
+        FROM posts
+        ORDER BY created_at DESC
+        LIMIT 100
+      `;
+  return rows as unknown as Post[];
+}
+
+// 写入：新增帖子
+export async function addPost(module: string, title: string, content: string) {
+  await sql`
+    INSERT INTO posts (module, title, content)
+    VALUES (${module}, ${title}, ${content})
+  `;
 }

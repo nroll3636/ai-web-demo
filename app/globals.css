@@ -21,13 +21,13 @@ body {
 }
 
 .container {
-  max-width: 720px;
+  max-width: 880px;
   margin: 0 auto;
-  padding: 48px 20px 64px;
+  padding: 32px 20px 64px;
 }
 
 header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 h1 {
@@ -50,25 +50,177 @@ header p {
   margin-bottom: 24px;
 }
 
-.form {
+/* ===== 顶部导航 ===== */
+.nav {
   display: flex;
-  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 16px 20px 0;
 }
 
-.form input {
-  flex: 1;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+.nav-brand {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
   font-size: 14px;
-  outline: none;
 }
 
-.form input:focus {
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+/* ===== 首页板块卡片 ===== */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.module-card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.module-card:hover {
   border-color: var(--accent);
 }
 
-.form button {
+.module-card h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+.module-card p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.count {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* ===== 帖子列表 ===== */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.post-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #ccfbf1;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.time {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ===== 发帖表单 ===== */
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.post-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.post-form input,
+.post-form select,
+.post-form textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.post-form input:focus,
+.post-form select:focus,
+.post-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.post-form button {
+  align-self: flex-start;
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
@@ -78,11 +230,11 @@ header p {
   cursor: pointer;
 }
 
-.form button:hover {
+.post-form button:hover {
   background: var(--accent-hover);
 }
 
-.form button:disabled {
+.post-form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -93,48 +245,8 @@ header p {
   color: var(--accent);
 }
 
-.section-title {
-  font-size: 16px;
-  margin: 0 0 16px;
-}
-
-.empty {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 4px;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-}
-
-.list li:last-child {
-  border-bottom: none;
-}
-
-.time {
-  color: var(--muted);
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.badge {
-  display: inline-block;
-  margin-bottom: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #ccfbf1;
-  color: var(--accent);
-  font-size: 12px;
+@media (max-width: 640px) {
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
 }

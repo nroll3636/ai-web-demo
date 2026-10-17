@@ -12,8 +12,11 @@ if (!url) {
 const sql = neon(url);
 
 // 写入测试
-await sql`INSERT INTO messages (content) VALUES ('本地连通测试')`;
+await sql`
+  INSERT INTO posts (module, title, content)
+  VALUES ('闲聊', '本地连通测试', '数据库读写正常')
+`;
 
 // 读取测试
-const rows = await sql`SELECT count(*)::int AS n FROM messages`;
-console.log("✅ 数据库读写正常，当前留言总数:", rows[0].n);
+const rows = await sql`SELECT count(*)::int AS n FROM posts`;
+console.log("✅ 数据库读写正常，当前帖子总数:", rows[0].n);

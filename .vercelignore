@@ -1,0 +1,4 @@
+# 部署到 Vercel 时忽略的文件（密钥绝不打包上传）
+.env
+.env*.local
+node_modules
