@@ -1,0 +1,31 @@
+name: check-site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检查首页
+        run: |
+          code=$(curl -s -o /tmp/home.html -w "%{http_code}" --max-time 50 https://ai-web-demo-dusky.vercel.app/)
+          echo "首页 HTTP: $code"
+          if ! grep -q "校园社区" /tmp/home.html; then echo "首页缺少「校园社区」内容"; fi
+          test "$code" = "200"
+
+      - name: 检查帖子列表
+        run: |
+          code=$(curl -s -o /tmp/posts.html -w "%{http_code}" --max-time 50 https://ai-web-demo-dusky.vercel.app/posts)
+          echo "帖子列表 HTTP: $code"
+          test "$code" = "200"
+
+      - name: 检查发帖接口
+        run: |
+          code=$(curl -s -o /tmp/api.json -w "%{http_code}" --max-time 50 -X POST https://ai-web-demo-dusky.vercel.app/api/posts \
+            -H "Content-Type: application/json" \
+            -d '{"module":"闲聊","title":"体检测试","content":"来自 GitHub Actions 的自动测试"}')
+          echo "发帖接口 HTTP: $code"
+          test "$code" = "200"
